@@ -1,0 +1,13 @@
+FROM golang as build-stage
+
+WORKDIR /app/full_cycle_rocks
+COPY full_cycle_rocks.go .
+RUN go mod init ddias11/fullcyclerocks && go build
+
+FROM scratch
+
+COPY --from=build-stage /app/full_cycle_rocks/fullcyclerocks /app/full_cycle_rocks/fullcyclerocks
+
+ENTRYPOINT ["/app/full_cycle_rocks/fullcyclerocks"] 
+
+
